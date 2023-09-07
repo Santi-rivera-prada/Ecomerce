@@ -1,0 +1,48 @@
+$menu-color: #ffffff;
+
+@mixin header-link {
+  color: $menu-color;
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: border-bottom 0.2s ease-in-out; /* Agregamos una transición suave */
+}
+
+.header {
+  background-color: #222;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+
+  &__logo {
+    @include header-link;
+    font-size: 24px; /* Tamaño de fuente más grande para el logo */
+    font-weight: bold; /* Texto en negrita para el logo */
+  }
+
+  &__nav-list {
+    display: flex;
+    list-style: none;
+    gap: 20px; /* Reemplazamos "column-gap" por "gap" para mayor compatibilidad */
+    flex-wrap: wrap;
+  }
+
+  &__list-item {
+    margin: 0;
+    padding: 0;
+  }
+
+  &__item-link {
+    @include header-link;
+    font-size: 18px; /* Tamaño de fuente para los enlaces del menú */
+    text-transform: uppercase; /* Texto en mayúsculas para los enlaces del menú */
+
+    &--is-active {
+      border-bottom: solid 3px $menu-color;
+    }
+
+    &:hover {
+      border-bottom: solid 2px $menu-color;
+    }
+  }
+}
