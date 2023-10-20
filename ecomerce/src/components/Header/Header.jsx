@@ -58,7 +58,7 @@ const Header = () => {
                 marginRight: '10px'
               }}
               type='search'
-              placeholder='Buscar productos...'
+              placeholder='input inactive !!!'
               value={searchTerm}
               onChange={handleSearchChange}
               name=''

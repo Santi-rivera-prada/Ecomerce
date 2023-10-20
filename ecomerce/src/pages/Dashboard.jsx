@@ -1,124 +1,68 @@
-import { useState, useEffect } from 'react'
-import { useAuthContext } from '@/hooks/useAuthContext'
-import { getSingleUserService } from '@/services/userServices'
+import React, { useState, useEffect } from 'react';
+import { useAuthContext } from '@/hooks/useAuthContext';
+import { Card, Button } from 'react-bootstrap';
+
 
 const Dashboard = () => {
-  const { userPayload } = useAuthContext()
-  const [userData, setUserData] = useState({})
-  const [uploadedFiles, setUploadedFiles] = useState([])
-  const [showUploadedData, setShowUploadedData] = useState(false)
+  const { userPayload } = useAuthContext();
+  const [userData, setUserData] = useState({});
+  const [showUploadedData, setShowUploadedData] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await getSingleUserService(userPayload.id)
+        const response = await fetch(`https://ecomerce-i14z.onrender.com/users/${userPayload.id}`);
         if (response.status === 200) {
-          setUserData(response.data)
+          const data = await response.json();
+          setUserData(data);
+        } else {
+          console.error('Error al obtener datos del usuario');
         }
       } catch (error) {
-        console.error('An error occurred in Dashboard', error.message)
+        console.error('Ocurrió un error en Dashboard:', error.message);
       }
-    }
-    fetchUserData()
-  }, [userPayload.id])
-
-  const handleFileUpload = (event) => {
-    const files = event.target.files
-    const uploadedFilesArray = Array.from(files)
-    setUploadedFiles(uploadedFilesArray)
-  }
-
-  const handleUpload = () => {
-    if (window.confirm('¿Estás seguro de que deseas subir los archivos?')) {
-      // Lógica para subir los archivos al servidor
-      console.log('Archivos subidos:', uploadedFiles)
-      setShowUploadedData(true)
-      alert('¡Waaaaa! Tu archivo fue subido')
-    }
-  }
-
-  const handleEditar = () => {
-    if (window.confirm('¿Estás seguro de que deseas editar?')) {
-      // Lógica para editar lo que haya sido subido
-      console.log('Editar función')
-    }
-  }
-
-  const handleBorrar = () => {
-    if (window.confirm('¿Estás seguro de que deseas borrar?')) {
-      // Lógica para borrar lo que haya sido subido
-      console.log('Borrar función')
-    }
-  }
-
-  const handleVaciar = () => {
-    if (window.confirm('¿Estás seguro de que deseas vaciar?')) {
-      // Lógica para reestablecer todo
-      console.log('Vaciar función')
-    }
-  }
-
-  const handleSaberMas = () => {
-    if (window.confirm('¿Estás seguro de que deseas saber más?')) {
-      // Lógica para mostrar información sobre la página
-      console.log('Saber más función')
-    }
-  }
+    };
+    fetchUserData();
+  }, [userPayload.id]);
 
   return (
-    <div className='container mt-5' style={{ display: 'grid', justifyContent: 'center' }}>
-      <h1 className='mb-4' style={{ display: 'grid', justifyContent: 'center', fontSize: '30px', color: 'navy' }}>
-        ¡Bienvenido al Dashboard!
-      </h1>
-      <h2 className='mb-4' style={{ display: 'grid', justifyContent: 'center', fontSize: '20px', color: 'gray' }}>
-        Espero que tengas un grandioso día
-      </h2>
-      <p
-        className='mb-4'
-        style={{
-          display: 'grid',
-          justifyContent: 'center',
-          fontSize: '18px',
-          color: 'darkgreen',
-          maxWidth: '500px',
-          textAlign: 'center'
-        }}
-      >
-        En este momento tienes acceso completo al Dashboard. ¡Explora tus opciones y sorpréndete!
-      </p>
-      <h3 className='mb-4' style={{ display: 'grid', justifyContent: 'center', fontSize: '24px', color: 'navy' }}>
-        Elige una de las siguientes opciones:
-      </h3>
-      <div style={{ display: 'grid', justifyContent: 'center' }}>
-        <button onClick={handleEditar} style={{ margin: '10px', cursor: 'pointer', fontFamily: 'cursive', background: 'aliceBlue', borderRadius: '100px', padding: '10px 20px' }}>
-          Editar
-        </button>
-        <label htmlFor='file-upload' style={{ margin: '10px', cursor: 'pointer', fontFamily: 'cursive', background: 'aliceBlue', borderRadius: '100px', padding: '10px 20px' }}>
-          Agregar
-        </label>
-        <input id='file-upload' type='file' multiple onChange={handleFileUpload} style={{ display: 'none' }} />
-        <button onClick={handleBorrar} style={{ margin: '10px', cursor: 'pointer', fontFamily: 'cursive', background: 'aliceBlue', borderRadius: '100px', padding: '10px 20px' }}>
-          Borrar
-        </button>
-        <button onClick={handleVaciar} style={{ margin: '10px', cursor: 'pointer', fontFamily: 'cursive', background: 'aliceBlue', borderRadius: '100px', padding: '10px 20px' }}>
-          Vaciar
-        </button>
-        <button onClick={handleSaberMas} style={{ margin: '10px', cursor: 'pointer', fontFamily: 'cursive', background: 'aliceBlue', borderRadius: '100px', padding: '10px 20px' }}>
-          Saber más
-        </button>
-      </div>
-      {showUploadedData && (
-        <div className='row'>
-          <div className='col-md-6'>
-            {userData?.first_name && <h4>{userData.first_name}</h4>}
-            {userData?.last_name && <h4>{userData.last_name}</h4>}
-            {userData?.gender && <h4>{userData.gender}</h4>}
-            {userData?.email && <h4>{userData.email}</h4>}
-          </div>
-        </div>
-      )}
+    <div className="container mt-5">
+      <h1 className="mb-4 text-center">¡Bienvenido al Dashboard!</h1>
+      <h2 className="mb-4 text-center text-muted">Esperamos que tengas un gran día.</h2>
+      <Card style={{ maxWidth: '400px', margin: '0 auto', boxShadow: '0 4px 6px 0 rgba(0, 0, 0, 0.1)' }}>
+        <Card.Header>Información de la Cuenta</Card.Header>
+        <Card.Body>
+          {showUploadedData ? (
+            <>
+              <Card.Text>
+                <strong>Nombre:</strong> {userData.name}
+              </Card.Text>
+              <Card.Text>
+                <strong>Género:</strong> {userData.gender}
+              </Card.Text>
+              <Card.Text>
+                <strong>Correo Electrónico:</strong> {userData.email}
+              </Card.Text>
+              {userData.first_name && <h2>{userData.first_name}</h2>}
+              {userData.last_name && <h2>{userData.last_name}</h2>}
+            </>
+          ) : (
+            <Card.Text className='text-center text-muted'>
+              Haga clic en "Mostrar Información" para ver los detalles de la cuenta.
+            </Card.Text>
+          )}
+        </Card.Body>
+        <Card.Footer>
+          <Button
+            variant='primary'
+            onClick={() => setShowUploadedData(!showUploadedData)}
+          >
+            {showUploadedData ? 'Ocultar Información' : 'Mostrar Información'}
+          </Button>
+        </Card.Footer>
+      </Card>
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

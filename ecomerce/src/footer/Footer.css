@@ -1,0 +1,84 @@
+.footer {
+  background-color: rgb(225, 237, 238);
+  color: #0d1555;
+  padding: 30px 10px;
+  position: relative;
+  z-index: 20;
+}
+
+.footer-container {
+  max-width: 100%; /* Cambiado de 1200px a 100% para que sea más ancho */
+  margin: 0 50px;
+  padding: 0 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* Permite que los elementos se envuelvan cuando el ancho es insuficiente */
+}
+
+.footer h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.footer-section {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.footer ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.footer ul li {
+  margin-bottom: 15px;
+}
+
+.footer ul li a {
+  color: #337d10;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer ul li a:hover {
+  color: #000000;
+}
+
+.footer img {
+  max-width: 100%; /* Cambiado de 120px a 100% para que se ajuste al ancho del contenedor */
+  transition: transform 0.3s ease;
+}
+
+.footer img:hover {
+  transform: scale(1.1); /* Escalado ligeramente en el hover */
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 2px solid #555;
+}
+
+.footer-bottom p {
+  font-size: 14px;
+}
+
+.footer-bottom a {
+  color: #000000;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-bottom a:hover {
+  color: #000000;
+}
+
+.large-letter {
+  font-size: 24px;
+}
+
+.orange-text {
+  color: rgb(255, 0, 0);
+  font-size: 24px;
+}
