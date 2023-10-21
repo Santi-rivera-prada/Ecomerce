@@ -103,12 +103,12 @@ const Home = () => {
       {/* Modal para el carrito */}
       <Modal show={showCartModal} onHide={() => setShowCartModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Producto Agregado al Carrito</Modal.Title>
+          <Modal.Title>Bienvenid@</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {selectedItem && (
             <div>
-              <p>{selectedItem.product_name} se ha agregado correctamente a tu carrito.</p>
+              <p>Dirigete al carrito y selecciona tu producto a comprar _{selectedItem.product_name} .</p>
               <Link to="/products">
                 <Button variant="primary">Ver Mi Carrito</Button>
               </Link>

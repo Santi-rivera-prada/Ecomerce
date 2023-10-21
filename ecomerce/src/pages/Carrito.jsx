@@ -6,6 +6,8 @@ const Carrito = () => {
   const [carrito, setCarrito] = useState([]);
   const [total, setTotal] = useState(0);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+  const [paymentInfo, setPaymentInfo] = useState({ cardNumber: '', paypalEmail: '' });
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   // Función para obtener productos de la API
   const obtenerProductos = async () => {
@@ -44,6 +46,8 @@ const Carrito = () => {
     setCarrito([]);
     setTotal(0);
     setSelectedPaymentMethod(null);
+    setPaymentInfo({ cardNumber: '', paypalEmail: '' });
+    setPaymentSuccess(false);
   };
 
   const paymentMethods = [
@@ -60,38 +64,25 @@ const Carrito = () => {
       return;
     }
 
-    // Realiza la lógica de pago aquí, puedes llamar a una API para procesar el pago
-    // Por ejemplo:
-    try {
-      const response = await fetch('URL_DE_TU_API_DE_PAGO', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          products: carrito,
-          total: total,
-          paymentMethod: selectedPaymentMethod,
-        }),
-      });
-
-      if (response.status === 200) {
-        // Pago exitoso, puedes realizar acciones adicionales aquí
-        alert('Pago exitoso');
-        cancelarCompra();
-      } else {
-        // Manejar errores de pago
-        alert('Error al procesar el pago');
-      }
-    } catch (error) {
-      console.error('Ocurrió un error al procesar el pago:', error);
-      alert('Error al procesar el pago');
+    if (
+      (selectedPaymentMethod === 'Tarjeta de crédito' && paymentInfo.cardNumber === '') ||
+      (selectedPaymentMethod === 'PayPal' && !paymentInfo.paypalEmail)
+      // Agrega validaciones para otros métodos de pago según sea necesario
+    ) {
+      alert('Por favor, completa la información de pago.');
+      return;
     }
+
+    // Realiza la lógica de pago aquí, puedes llamar a una API para procesar el pago
+    // Simulación de éxito de pago después de un breve retraso
+    setTimeout(() => {
+      setPaymentSuccess(true);
+    }, 2000);
   };
 
   return (
     <div className="container">
-      <h1 className="text-center">Carrito de Compras</h1>
+      <h1 className="text-center" style={{color:'green'}}>Carrito de Compras</h1>
       <div className="row">
         <div className="col-md-6">
           <h2>Productos Disponibles:</h2>
@@ -133,8 +124,30 @@ const Carrito = () => {
                 </option>
               ))}
             </select>
+            {selectedPaymentMethod === 'Tarjeta de crédito' && (
+              <input
+                type="text"
+                placeholder="Número de tarjeta"
+                value={paymentInfo.cardNumber}
+                onChange={(e) => setPaymentInfo({ ...paymentInfo, cardNumber: e.target.value })}
+              />
+            )}
+            {selectedPaymentMethod === 'PayPal' && (
+              <input
+                type="text"
+                placeholder="Correo de PayPal"
+                value={paymentInfo.paypalEmail}
+                onChange={(e) => setPaymentInfo({ ...paymentInfo, paypalEmail: e.target.value })}
+              />
+            )}
             <button onClick={realizarPago}>Pagar</button>
           </div>
+          {paymentSuccess && (
+            <div>
+              <p>Pago realizado con éxito.</p>
+              <button onClick={cancelarCompra}>Cerrar</button>
+            </div>
+          )}
           <div>
             <button onClick={cancelarCompra}>Cancelar Compra</button>
           </div>
