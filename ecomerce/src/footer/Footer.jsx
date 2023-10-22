@@ -32,7 +32,7 @@ const Footer = () => {
         </div>
         <div className="footer-section">
           <h3></h3>
-          <img  className='descarga-app' src='https://o.remove.bg/downloads/8c19d98f-3776-4673-8505-ca8b015c52b5/ecomerce-removebg-preview.png' alt="Descarga la App" />
+          <img  className='descarga-app' src='./src/ecomerce.png' alt="Descarga la App" />
         </div>
       </div>
       <div className="footer-bottom">
